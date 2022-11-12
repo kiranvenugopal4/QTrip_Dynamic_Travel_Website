@@ -5,6 +5,10 @@ import config from "../conf/index.js";
 function getCityFromURL(search) {
   // TODO: MODULE_ADVENTURES
   // 1. Extract the city id from the URL's Query Param and return it
+ const queryString = search;
+ const params = new URLSearchParams(queryString);
+ const q = params.get("city");
+ return q;
 
 }
 
@@ -13,12 +17,50 @@ async function fetchAdventures(city) {
   // TODO: MODULE_ADVENTURES
   // 1. Fetch adventures using the Backend API and return the data
 
+try {
+  const data = await fetch(`${config.backendEndpoint}/adventures?city=${city}`);
+  const jsonResponse = await data.json();
+  console.log(jsonResponse);
+  return jsonResponse;
+}
+
+catch{
+  return null;
+}
 }
 
 //Implementation of DOM manipulation to add adventures for the given city from list of adventures
 function addAdventureToDOM(adventures) {
   // TODO: MODULE_ADVENTURES
   // 1. Populate the Adventure Cards and insert those details into the DOM
+  adventures.forEach(adventure => {
+    let card = document.createElement("div");
+    card.className = "col-12 col-md-3 col-xxl-3 activity-card my-2";  
+    let parent = document.getElementById("data");
+
+    card.innerHTML = ` <a href="detail/?adventure=${adventure.id}" id = "${adventure.id}" class="activity-card w-100 h-100">
+
+    <img class="card-img-top activity-card-image" style="object-fit:cover; width:100%" src=${adventure.image}>  
+    
+    
+    <div class="card-body" style = "width:100%;">
+      <div class="category-banner">${adventure.category}</div>
+      <div class="d-flex justify-content-between">
+      <p class="card-text">${adventure.name}</p>
+      <p class="card-text">₹${adventure.costPerHead}</p>
+      </div>
+      <div class="d-flex justify-content-between">
+      <p class="card-text">Duration</p>
+      <p class="card-text">${adventure.duration} Hours</p>
+      </div>
+    </div>
+    </a>`;
+  
+
+
+    parent.appendChild(card); 
+  });
+
 
 }
 

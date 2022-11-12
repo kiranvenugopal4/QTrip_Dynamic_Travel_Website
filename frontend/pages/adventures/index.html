@@ -42,6 +42,7 @@
                 Here's a list of places that you can explore in city
             </p>
             <div class="mb-5">
+
                 <!-- Filters section -->
                 <div class="filter-bar d-flex align-items-center">
                     <div class="filter-bar-tile">
@@ -83,7 +84,9 @@
                 </div>
             </div>
             <!-- Display Adventures cards -->
-            <div class="row" id="data"></div>
+            <div class="row" id="data">
+                
+            </div>
         </div>
     </div>
     <!-- Footer -->
@@ -129,6 +132,7 @@
 
             //Fetches the adventures for the particular city
             adventures = await fetchAdventures(city);
+
 
             //Applies filters on the adventures list
             let filteredAdventures = filterFunction(adventures, filters);

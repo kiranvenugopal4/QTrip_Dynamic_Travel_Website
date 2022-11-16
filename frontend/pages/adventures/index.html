@@ -149,7 +149,20 @@
         function selectDuration(event) {
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to show the selected duration filter. Use the provided input event
+            
+            document.getElementById("data").textContent = "";
+
+            let duration = event.target.value;
+            // document.getElementById("duration-select").selectedIndex = 0;
+
+            filters["duration"] = duration;
+
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
+
             // 2. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
+
 
         }
 
@@ -157,7 +170,16 @@
         function clearDuration(event) {
             // TODO: MODULE_FILTERS
             // 1. Change the DOM to clear the Duration filter. Refer clearCategory() below
+            
+            document.getElementById("data").textContent = "";
+            document.getElementById("category-list").textContent = "";
+            document.getElementById("duration-select").selectedIndex = 0;
+
+            filters["duration"] = [];
+            let filteredAdventures = filterFunction(adventures, filters);
+            addAdventureToDOM(filteredAdventures);
             // 2. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
 
         }
 
@@ -179,8 +201,11 @@
             let filteredAdventures = filterFunction(adventures, filters);
             addAdventureToDOM(filteredAdventures);
 
+            let durationElem = document.getElementById
+
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //executed when clear button is clicked on category filter dropdown
@@ -194,6 +219,7 @@
 
             // TODO: MODULE_FILTERS
             // 1. Invoke saveFiltersToLocalStorage here
+            saveFiltersToLocalStorage(filters);
         }
 
         //helper function

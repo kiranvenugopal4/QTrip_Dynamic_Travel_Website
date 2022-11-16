@@ -68,6 +68,16 @@ function addAdventureToDOM(adventures) {
 function filterByDuration(list, low, high) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on Duration and return filtered list
+  let filteredList = [];
+  list.forEach(listItem => {
+
+    let duration = listItem.duration;
+    if(duration >= low && duration <= high){
+      filteredList.push(listItem);
+    }
+  });
+  return filteredList;
+  
 
 }
 
@@ -75,6 +85,24 @@ function filterByDuration(list, low, high) {
 function filterByCategory(list, categoryList) {
   // TODO: MODULE_FILTERS
   // 1. Filter adventures based on their Category and return filtered list
+
+  let filteredList = [];
+
+  for(let i=0; i< categoryList.length; i++){
+    let filteredCurrCat = list.filter(adv => adv.category == categoryList[i]);
+    filteredCurrCat.forEach(adv => {
+      filteredList.push(adv)
+    });
+  }
+  return filteredList;
+
+  // for (let i = 0; i < categoryList.length; i++) {
+  //   let filterCurrCat = list.filter(adv => adv.category === categoryList[i]);
+
+  //   filterCurrCat.forEach(adv => { filteredList.push(adv) });
+  // }
+
+  // return filteredList;
 
 }
 
@@ -90,6 +118,33 @@ function filterFunction(list, filters) {
   // 1. Handle the 3 cases detailed in the comments above and return the filtered list of adventures
   // 2. Depending on which filters are needed, invoke the filterByDuration() and/or filterByCategory() methods
 
+  if ((filters.category.length > 0) && (filters.duration.length > 0)) {
+    let lowTime = filters.duration.split("-")[0];
+    let highTime = filters.duration.split("-")[1];
+    let durationFiltered = filterByDuration(list, lowTime, highTime);
+    return filterByCategory(durationFiltered, filters.category);
+  }
+
+  if(filters["category"].length > 0){
+
+    // let categoryList = filters["category"];
+    // let filteredList = filterByCategory(filteredList, categoryList);
+    return filterByCategory(list, filters.category);
+  }
+
+  // if(filters["duration"].length > 0){
+  //   let low = filters["duration"]["low"];
+  //   let high = filters["duration"]["high"];
+  //   filteredList = filterByDuration(list, low, high);
+  // }
+
+  if (filters.duration.length > 0) {
+    let lowTime = filters.duration.split("-")[0];
+    let highTime = filters.duration.split("-")[1];
+    return filterByDuration(list, lowTime, highTime);
+  }
+
+  
 
   // Place holder for functionality to work in the Stubs
   return list;
@@ -99,7 +154,8 @@ function filterFunction(list, filters) {
 function saveFiltersToLocalStorage(filters) {
   // TODO: MODULE_FILTERS
   // 1. Store the filters as a String to localStorage
-
+  localStorage.setItem(`filters`,JSON.stringify(filters));
+  
   return true;
 }
 
@@ -107,10 +163,9 @@ function saveFiltersToLocalStorage(filters) {
 function getFiltersFromLocalStorage() {
   // TODO: MODULE_FILTERS
   // 1. Get the filters from localStorage and return String read as an object
-
-
+  let preParse = localStorage.getItem(`filters`);
   // Place holder for functionality to work in the Stubs
-  return null;
+  return JSON.parse(preParse);
 }
 
 //Implementation of DOM manipulation to add the following filters to DOM :
@@ -120,6 +175,35 @@ function getFiltersFromLocalStorage() {
 function generateFilterPillsAndUpdateDOM(filters) {
   // TODO: MODULE_FILTERS
   // 1. Use the filters given as input, update the Duration Filter value and Generate Category Pills
+  let durationVal = filters.duration;
+  console.log(durationVal);
+
+  if(durationVal == "0-2")
+  {
+    document.getElementById("duration-select").selectedIndex = 1;
+  }
+  else if(durationVal == "2-6")
+  {
+    document.getElementById("duration-select").selectedIndex = 2;
+  }
+  else if(durationVal == "6-12")
+  {
+    document.getElementById("duration-select").selectedIndex = 3;
+  }
+  else if(durationVal == "12-99")
+  {
+    document.getElementById("duration-select").selectedIndex = 4;
+  }
+
+  if (filters.category.length > 0){
+    filters.category.forEach(filter => {
+      let parent = document.getElementById("category-list");
+      let pill = document.createElement("div");
+      pill.innerText = `${filter}`;
+      pill.classList.add("category-filter");
+      parent.appendChild(pill);
+    })
+  }
 
 }
 export {

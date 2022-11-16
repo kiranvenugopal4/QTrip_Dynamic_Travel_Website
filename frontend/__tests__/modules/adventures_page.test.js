@@ -325,7 +325,7 @@ describe("Adventure Page Tests", function () {
 
     expect(output).toBeInstanceOf(Array);
     expect(output.map((a) => a.id).sort()).toEqual(
-      expected.map((a) => a.id).sort()
+      expected.map((a) => a.id).sort()  
     );
   });
 

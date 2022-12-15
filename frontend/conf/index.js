@@ -1,4 +1,4 @@
 
-const config = { backendEndpoint: "https://crio-qtripdynamic.herokuapp.com" };
+const config = { backendEndpoint: "https://qtrip-dynamic-pm4l.onrender.com" };
 
 export default config;
